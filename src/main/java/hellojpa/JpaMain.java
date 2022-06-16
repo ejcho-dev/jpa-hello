@@ -16,10 +16,18 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member(200L, "member200");
-            em.persist(member);
+            Member member = em.find(Member.class, 150L);
+            member.setName("AAAAA"); // 변경 감지
+
+            // 준영속 상태로 전환
+            // --> 트랜잭션 커밋 시 변경 감지로 인한 업데이트 쿼리 실행 X
+            //em.detach(member);
             
-            em.flush(); // 플러시 --> DB 반영
+            // 영속성 컨텍스트 초기화
+            // --> 아래 em.find() 실행하면 셀렉트 쿼리가 다시 실행됨
+            em.clear();
+            
+            Member member2 = em.find(Member.class, 150L);
 
             System.out.println("==========================");
 
