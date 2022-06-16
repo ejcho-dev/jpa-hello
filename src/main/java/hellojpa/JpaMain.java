@@ -15,32 +15,16 @@ public class JpaMain {
         tx.begin(); // 트랜잭션 시작
 
         try {
-            // member 저장하기
-            /*
+            // 비영속
             Member member = new Member();
-            member.setId(2L);
-            member.setName("HelloB");
+            member.setId(100L);
+            member.setName("HelloJPA");
 
-            em.persist(member); // 저장
-            */
-            // member 조회, 삭제하기
-            /*
-            Member findMember = em.find(Member.class, 1L); // 단건조회
-            em.remove(findMember); // 삭제
-            */
-            // member 수정하기
-            /*
-            Member findMember = em.find(Member.class, 1L); // 조회
-            findMember.setName("HelloJPA"); // 수정
-            */
-            // 여러 건 조회 --> JPQL
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(5)
-                    .setMaxResults(8)
-                    .getResultList();
-            for (Member member : result) {
-                System.out.println("member.getName() = " + member.getName());
-            }
+            // 영속
+            System.out.println("=== BEFORE ===");
+            em.persist(member);
+            em.detach(member); // 영속성 컨텍스트에서 분리
+            System.out.println("=== AFTER ===");
 
             tx.commit(); // 트랜잭션 커밋
         } catch (Exception e) {
