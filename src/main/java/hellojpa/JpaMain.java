@@ -15,16 +15,12 @@ public class JpaMain {
         tx.begin(); // 트랜잭션 시작
 
         try {
-            // 비영속
-            Member member = new Member();
-            member.setId(100L);
-            member.setName("HelloJPA");
 
             // 영속
-            System.out.println("=== BEFORE ===");
-            em.persist(member);
-            em.detach(member); // 영속성 컨텍스트에서 분리
-            System.out.println("=== AFTER ===");
+            Member member = em.find(Member.class, 150L);
+            member.setName("ZZZZ");
+
+            System.out.println("==========================");
 
             tx.commit(); // 트랜잭션 커밋
         } catch (Exception e) {
