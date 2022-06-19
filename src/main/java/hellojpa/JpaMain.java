@@ -12,33 +12,32 @@ public class JpaMain {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
         EntityTransaction tx = em.getTransaction();
-        tx.begin(); // 트랜잭션 시작
+        tx.begin();
 
         try {
-            Member member1 = new Member();
-            member1.setUsername("A");
+            
+            // 팀 저장
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-            Member member2 = new Member();
-            member2.setUsername("B");
+            // 멤버 저장
+            Member member = new Member();
+            member.setName("member1");
+            member.setTeam(team);
+            em.persist(member);
 
-            Member member3 = new Member();
-            member3.setUsername("C");
+            em.flush();
+            em.clear();
 
-            System.out.println("===================");
+            // 조회
+            Member findMember = em.find(Member.class, member.getId());
+            Team findTeam = member.getTeam();
+            System.out.println("findTeam = " + findTeam.getName());
 
-            em.persist(member1);
-            em.persist(member2);
-            em.persist(member3);
-
-            System.out.println("member1 = " + member1.getId());
-            System.out.println("member2 = " + member2.getId());
-            System.out.println("member3 = " + member3.getId());
-
-            System.out.println("===================");
-
-            tx.commit(); // 트랜잭션 커밋
+            tx.commit();
         } catch (Exception e) {
-            tx.rollback(); // 롤백
+            tx.rollback();
         } finally {
             em.close();
         }
