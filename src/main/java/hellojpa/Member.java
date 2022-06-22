@@ -16,7 +16,7 @@ public class Member {
 //    private Long teamId;
 
     @ManyToOne // member n team 1
-    @JoinColumn(name = "TEAM_ID")
+    @JoinColumn(name = "TEAM_ID") // 외래키가 있는 Member 가 주인! N:1의 관계일 때 N쪽이 주인!
     private Team team;
 
     public Long getId() {
