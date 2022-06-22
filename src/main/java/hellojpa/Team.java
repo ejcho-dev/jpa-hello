@@ -38,4 +38,9 @@ public class Team {
     public void setMembers(List<Member> memebers) {
         this.members = memebers;
     }
+
+    public void addMember(Member member) {
+        member.setTeam(this);
+        members.add(member);
+    }
 }
