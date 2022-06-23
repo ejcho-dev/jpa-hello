@@ -14,14 +14,10 @@ public class Member {
     private Long id;
 
     @Column(name = "USERNAME")
-    private String name;
-
-    @ManyToOne // member n team 1
-    @JoinColumn(name = "TEAM_ID") // 외래키가 있는 Member 가 주인! N:1의 관계일 때 N쪽이 주인!
+    private String username;
+    
+    @ManyToOne
+    // 일대다 양방향으로 사용하고 싶을 때! 읽기 전용, 공식은 아님 편법?
+    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
     private Team team;
-
-//    public void changeTeam(Team team) {
-//        this.team = team;
-//        team.getMembers().add(this);
-//    }
 }

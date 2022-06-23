@@ -16,11 +16,7 @@ public class Team {
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "team") // Member 클래스의 team 변수가 주인이므로 mappedBy 설정
+    @OneToMany
+    @JoinColumn(name = "TEAM_ID") // 일대다 단방향에서 @JoinColumn 이 없으면 조인테이블이 추가됨
     private List<Member> members = new ArrayList<>();
-
-    public void addMember(Member member) {
-        member.setTeam(this);
-        members.add(member);
-    }
 }
