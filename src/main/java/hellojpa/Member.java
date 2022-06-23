@@ -1,8 +1,12 @@
 package hellojpa;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter @Setter
 public class Member {
     
     @Id @GeneratedValue
@@ -12,36 +16,9 @@ public class Member {
     @Column(name = "USERNAME")
     private String name;
 
-//    @Column(name = "TEAM_ID")
-//    private Long teamId;
-
     @ManyToOne // member n team 1
     @JoinColumn(name = "TEAM_ID") // 외래키가 있는 Member 가 주인! N:1의 관계일 때 N쪽이 주인!
     private Team team;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Team getTeam() {
-        return team;
-    }
-
-    public void setTeam(Team team) {
-        this.team = team;
-    }
 
 //    public void changeTeam(Team team) {
 //        this.team = team;
