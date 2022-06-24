@@ -20,4 +20,8 @@ public class Member {
     // 일대다 양방향으로 사용하고 싶을 때! 읽기 전용, 공식은 아님 편법?
     @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
     private Team team;
+
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
 }
