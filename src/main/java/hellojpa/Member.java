@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +18,8 @@ public class Member extends BaseEntity {
     @Column(name = "USERNAME")
     private String username;
     
-    @ManyToOne
-    // 일대다 양방향으로 사용하고 싶을 때! 읽기 전용, 공식은 아님 편법?
-    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TEAM_ID")
     private Team team;
 
     @OneToMany(mappedBy = "member")
