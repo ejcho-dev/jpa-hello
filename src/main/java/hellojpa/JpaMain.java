@@ -4,6 +4,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class JpaMain {
 
@@ -14,38 +18,31 @@ public class JpaMain {
         tx.begin();
 
         try {
+            /*
+            // JPQL --> 기본!! + QueryDsl 실무 사용
+            List<Member> resultList =
+                    em.createQuery("select m from Member m where m.username like '%kim%'", Member.class)
+                    .getResultList();
+            */
 
-            Member member = new Member();
-            member.setUsername("member1");
-            member.setHomeAddress(new Address("homeCity", "street", "10000"));
+            /*
+            // Criteria --> 동적쿼리 작성하기 좋으나 실무에선 안 씀
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Member> query = cb.createQuery(Member.class);
 
-            member.getFavoriteFoods().add("치킨");
-            member.getFavoriteFoods().add("족발");
-            member.getFavoriteFoods().add("피자");
+            Root<Member> m = query.from(Member.class);
 
-            member.getAddressHistory().add(new AddressEntity("old1", "street", "10000"));
-            member.getAddressHistory().add(new AddressEntity("old2", "street", "10000"));
+            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("username"), "kim"));
+            List<Member> resultList = em.createQuery(cq).getResultList();
+            */
 
-            em.persist(member);
-
-            em.flush();
-            em.clear();
-
-            System.out.println("==============START===============");
-            Member findMember = em.find(Member.class, member.getId());
-
-            // homeCity --> newCity
-//            findMember.getHomeAddress().setCity("newCity");
-//            Address a = findMember.getHomeAddress();
-//            findMember.setHomeAddress(new Address("newCity", a.getStreet(), a.getZipcode()));
-//
-            // 치킨 --> 한식
-//            findMember.getFavoriteFoods().remove("치킨");
-//            findMember.getFavoriteFoods().add("한식");
-
-//            findMember.getAddressHistory().remove(new AddressEntity("old1", "street", "10000"));
-//            findMember.getAddressHistory().add(new AddressEntity("newCity1", "street", "10000"));
-
+            /*
+            // Native query --> 잘 안 씀
+            List<Member> resultList =
+                    em.createNativeQuery("select MEMBER_ID, city, street, zipcode, USERNAME from MEMBER")
+                            .getResultList();
+            */
+            // flush --> commit or em.query 조회 시 실행
 
             tx.commit();
         } catch (Exception e) {
